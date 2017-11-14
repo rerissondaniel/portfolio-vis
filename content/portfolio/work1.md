@@ -7,26 +7,48 @@ title = "Name of the work 1"
 weight = 0
 +++
 
-Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life. One day however a small line of blind text by the name of Lorem Ipsum decided to leave for the far World of Grammar.
-<!--more-->
+<div id="vis" width=300></div>
 
-Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vega/3.0.7/vega.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vega-lite/2.0.1/vega-lite.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vega-embed/3.0.0-rc7/vega-embed.js"></script>
+<script>
+    const spec = {
+    "$schema": "https://vega.github.io/schema/vega-lite/v2.json",
+    "data": {
+        "url": "https://api.insa.gov.br/reservatorios/12172/monitoramento",
+        "format": {
+        "type": "json",
+        "property": "volumes",
+        "parse": {
+            "DataInformacao": "utc:'%d/%m/%Y'"
+                }
+            }
+        },
 
-A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.
+    "width": 500,
+    "height": 120,
 
-1. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-2. Aliquam tincidunt mauris eu risus.
-
-> The Big Oxmox advised her not to do so, because there were thousands of bad Commas, wild Question Marks and devious Semikoli, but the Little Blind Text didn't listen. She packed her seven versalia, put her initial into the belt and made herself on the way.
-
-## Header Level 2
-
-Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life One day however a small line of blind text by the name of Lorem Ipsum decided to leave for the far World of Grammar.
-
-The Big Oxmox advised her not to do so, because there were thousands of bad Commas, wild Question Marks and devious Semikoli, but the Little Blind Text didn't listen. She packed her seven versalia, put her initial into the belt and made herself on the way.
-
-* Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-* Aliquam tincidunt mauris eu risus.
-
-When she reached the first hills of the Italic Mountains, she had a last view back on the skyline of her hometown Bookmarksgrove, the headline of Alphabet Village and the subline of her own road, the Line Lane. Pityful a rethoric question ran over her cheek, then  
-
+    "mark": {
+        "type": "area",
+        "interpolate": "monotone"
+    },
+    "selection": {
+      "brush": {"type": "interval", "encodings": ["x"]}
+    },
+    "encoding": {
+      "x": {
+        "timeUnit" : "monthyear",
+        "field": "DataInformacao",
+        "type": "temporal",
+        "axis": {"format": "%Y", "title" : "Volume percentual ao longo dos anos"}
+       },
+      "y": {
+        "field": "VolumePercentual",
+        "type": "quantitative",
+        "axis": {"tickCount": 30, "grid": false, "title": "Volume percentual"}
+         }
+       }
+     };
+      vegaEmbed('#vis', spec).catch(console.warn);
+</script>
