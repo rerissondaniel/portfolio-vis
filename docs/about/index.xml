@@ -2,13 +2,13 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Portfolio da Disciplina de Visualização de Dados</title>
-    <link>https://rerissondaniel.github.io/portfolio-vis/about/</link>
+    <link>https://rerissondaniel.github.io/about/</link>
     <description>Recent content on Portfolio da Disciplina de Visualização de Dados</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy;2016 Your name or company</copyright>
     
-	<atom:link href="https://rerissondaniel.github.io/portfolio-vis/about/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://rerissondaniel.github.io/about/index.xml" rel="self" type="application/rss+xml" />
     
     
   </channel>

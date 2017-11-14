@@ -1,4 +1,4 @@
-baseurl = "https://rerissondaniel.github.io/portfolio-vis"
+baseurl = "https://rerissondaniel.github.io/"
 title = "Portfolio da Disciplina de Visualização de Dados"
 theme = "hugo-creative-portfolio-theme"
 languageCode = "en-us"

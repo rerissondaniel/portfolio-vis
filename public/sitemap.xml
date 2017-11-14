@@ -3,37 +3,37 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://rerissondaniel.github.io/portfolio-vis/portfolio/work1/</loc>
+    <loc>https://rerissondaniel.github.io/portfolio/work1/</loc>
     <lastmod>2016-11-05T18:25:22+05:30</lastmod>
   </url>
   
   <url>
-    <loc>https://rerissondaniel.github.io/portfolio-vis/about/</loc>
+    <loc>https://rerissondaniel.github.io/about/</loc>
   </url>
   
   <url>
-    <loc>https://rerissondaniel.github.io/portfolio-vis/contact/</loc>
+    <loc>https://rerissondaniel.github.io/contact/</loc>
   </url>
   
   <url>
-    <loc>https://rerissondaniel.github.io/portfolio-vis/categories/</loc>
+    <loc>https://rerissondaniel.github.io/categories/</loc>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://rerissondaniel.github.io/portfolio-vis/</loc>
-    <lastmod>2016-11-05T18:25:22+05:30</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://rerissondaniel.github.io/portfolio-vis/portfolio/</loc>
+    <loc>https://rerissondaniel.github.io/</loc>
     <lastmod>2016-11-05T18:25:22+05:30</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://rerissondaniel.github.io/portfolio-vis/tags/</loc>
+    <loc>https://rerissondaniel.github.io/portfolio/</loc>
+    <lastmod>2016-11-05T18:25:22+05:30</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://rerissondaniel.github.io/tags/</loc>
     <priority>0</priority>
   </url>
   
