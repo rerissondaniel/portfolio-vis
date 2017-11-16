@@ -2,8 +2,8 @@
 <html lang="en-us">
 <head><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>Name of the work 1</title>
-<meta name="description" content="Describe your website">
+<title>Lab 1 Visualização da Informação 2017.2</title>
+
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="all,follow">
 <meta name="googlebot" content="index,follow,snippet,archive">
@@ -37,20 +37,18 @@
           <div class="row row-offcanvas row-offcanvas-left">
               <div id="sidebar" class="col-xs-6 col-sm-4 col-md-3 sidebar-offcanvas">
   <div class="sidebar-content">
-    <h1 class="sidebar-heading"><a href="https://rerissondaniel.github.io/">Portfolio da Disciplina de Visualização de Dados</a></h1>
+    <h1 class="sidebar-heading"><a href="https://rerissondaniel.github.io/">Portofolio de Visualização de dados</a></h1>
     
-      <p class="sidebar-p">I am a creative illustrator and graphic designer with more than 10 years of experience.</p>
-    
-      <p class="sidebar-p">Originally from Toronto, currently based in London.</p>
+      <p class="sidebar-p">Trabalhos elaborados para a disciplina de Visualização de Dados do curso de Ciência da Computação da UFCG.</p>
     
     <ul class="sidebar-menu">
       
       
         <li><a href="https://rerissondaniel.github.io/">Home</a></li>
       
-        <li><a href="https://rerissondaniel.github.io/about/">About</a></li>
+        <li><a href="https://rerissondaniel.github.io/about/">Sobre</a></li>
       
-        <li><a href="https://rerissondaniel.github.io/contact/">Get in touch</a></li>
+        <li><a href="https://rerissondaniel.github.io/contact/">Contato</a></li>
       
     </ul>
     <p class="social">
@@ -100,7 +98,7 @@
     <div class="copyright">
       <p class="credit">
         
-          &copy;2016 Your name or company
+          &copy;2017 Rerisson Matos
         
         | Template by <a href="https://bootstrapious.com/free-templates" class="external">Bootstrapious.com</a>
 
@@ -115,58 +113,33 @@
 <div class="col-xs-12 col-sm-8 col-md-9 content-column white-background">
   <div class="small-navbar visible-xs">
   <button type="button" data-toggle="offcanvas" class="btn btn-ghost pull-left"> <i class="fa fa-align-left"> </i>Menu</button>
-  <h1 class="small-navbar-heading"><a href="https://rerissondaniel.github.io/">Portfolio da Disciplina de Visualização de Dados</a></h1>
+  <h1 class="small-navbar-heading"><a href="https://rerissondaniel.github.io/">Portofolio de Visualização de dados</a></h1>
 </div>
 
   <div class="row">
     <div class="col-lg-8">
       <div class="content-column-content">
-         <h1>Name of the work 1</h1>
-         <div id="vis" width=300></div>
+         <h1>Lab 1 Visualização da Informação 2017.2</h1>
+         <div>
+    
+</div>
+
+<div id="visualicacao-volume-anual" width=300></div>
+<div id="visualicacao-volume-racionamento" width=300></div>
+<div id="visualicacao-media-volume-mensal" width=300></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vega/3.0.7/vega.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vega-lite/2.0.1/vega-lite.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vega-embed/3.0.0-rc7/vega-embed.js"></script>
+
 <script>
-    const spec = {
-    "$schema": "https://vega.github.io/schema/vega-lite/v2.json",
-    "data": {
-        "url": "https://api.insa.gov.br/reservatorios/12172/monitoramento",
-        "format": {
-        "type": "json",
-        "property": "volumes",
-        "parse": {
-            "DataInformacao": "utc:'%d/%m/%Y'"
-                }
-            }
-        },
-
-    "width": 500,
-    "height": 120,
-
-    "mark": {
-        "type": "area",
-        "interpolate": "monotone"
-    },
-    "selection": {
-      "brush": {"type": "interval", "encodings": ["x"]}
-    },
-    "encoding": {
-      "x": {
-        "timeUnit" : "monthyear",
-        "field": "DataInformacao",
-        "type": "temporal",
-        "axis": {"format": "%Y", "title" : "Volume percentual ao longo dos anos"}
-       },
-      "y": {
-        "field": "VolumePercentual",
-        "type": "quantitative",
-        "axis": {"tickCount": 30, "grid": false, "title": "Volume percentual"}
-         }
-       }
-     };
-      vegaEmbed('#vis', spec).catch(console.warn);
-</script>
+    const specVolAnual = "/visualizations/lab1/volume_anual.json";
+    vegaEmbed('#visualicacao-volume-anual', specVolAnual, {"actions" : false}).catch(console.warn);
+    const specVolMensalRacio = "/visualizations/lab1/volume_mensal_2012_2017.json";
+    vegaEmbed('#visualicacao-volume-racionamento', specVolMensalRacio, {"actions" : false}).catch(console.warn);
+    const specMedVolMensal = "/visualizations/lab1/media_volume_mensal.json";
+    vegaEmbed('#visualicacao-media-volume-mensal', specMedVolMensal, {"actions" : false}).catch(console.warn);
+ </script>
 
          
       </div>

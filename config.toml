@@ -1,5 +1,5 @@
 baseurl = "https://rerissondaniel.github.io/"
-title = "Portfolio da Disciplina de Visualização de Dados"
+title = "Portofolio de Visualização de dados"
 theme = "hugo-creative-portfolio-theme"
 languageCode = "en-us"
 # Enable comments by entering your Disqus shortname
@@ -11,11 +11,10 @@ googleAnalytics = ""
   # Style options: default (pink), blue, green, pink, red, sea, violet
   # Use custom.css for your custom styling
   style = "default"
-  description = "Describe your website"
-  copyright = "&copy;2016 Your name or company"
+  description = ""
+  copyright = "&copy;2017 Rerisson Matos"
   sidebarAbout = [
-    "I am a creative illustrator and graphic designer with more than 10 years of experience.",
-    "Originally from Toronto, currently based in London."
+    "Trabalhos elaborados para a disciplina de Visualização de Dados do curso de Ciência da Computação da UFCG."
   ]
   # Contact page
      # Since this template is static, the contact form uses www.formspree.io as a
@@ -37,11 +36,11 @@ googleAnalytics = ""
   url = ""
 
   [[params.navlinks]]
-  name = "About"
+  name = "Sobre"
   url = "about/"
 
   [[params.navlinks]]
-  name = "Get in touch"
+  name = "Contato"
   url = "contact/"
 
   [params.social]
@@ -52,4 +51,4 @@ googleAnalytics = ""
   linkedin      = "full profile url in linkedin"
   stackoverflow = "full profile url in stackoverflow"
   instagram     = "full profile url in instagram"
-github = "full profile url in github"
+  github        = "full profile url in github"
