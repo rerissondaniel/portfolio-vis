@@ -18,6 +18,7 @@
             "field": "DataInformacao", 
             "timeUnit":"month",
             "type": "temporal",
+            "axis": {"title": "Mês"},
             "scale": {
                 "nice":"month"
             }
@@ -26,7 +27,7 @@
             "aggregate":"mean",
             "field":"Volume", 
             "type": "quantitative",
-            "axis":{"title": "Volume"}
+            "axis":{"title": "Média do Volume"}
         },
         "size":{
           "value": 40  

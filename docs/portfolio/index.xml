@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Portfolios on Portofolio de Visualização de dados</title>
+    <title>Portfolios on Portfolio de Visualização de dados</title>
     <link>https://rerissondaniel.github.io/portfolio-vis/portfolio/</link>
-    <description>Recent content in Portfolios on Portofolio de Visualização de dados</description>
+    <description>Recent content in Portfolios on Portfolio de Visualização de dados</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy;2017 Rerisson Matos</copyright>
@@ -18,7 +18,8 @@
       <pubDate>Sat, 05 Nov 2016 18:25:22 +0530</pubDate>
       
       <guid>https://rerissondaniel.github.io/portfolio-vis/portfolio/lab1boqueirao/</guid>
-      <description>   O açude Epitácio Pessoa, também conhecido como boqueirão, abastece 18 cidades no estado da paraíba. Entre elas podemos destacar Campina Grande, segunda maior cidade do estado. Apesar disso,       const specVolAnual = &#34;/portfolio-vis//visualizations/lab1/volume_anual.json&#34;; vegaEmbed(&#39;#visualicacao-volume-anual&#39;, specVolAnual, {&#34;actions&#34; : false}).catch(console.warn); const specVolMensalRacio = &#34;/portfolio-vis/visualizations/lab1/volume_mensal_2012_2017.json&#34;; vegaEmbed(&#39;#visualicacao-volume-racionamento&#39;, specVolMensalRacio, {&#34;actions&#34; : false}).catch(console.warn); const specMedVolMensal = &#34;/portfolio-vis//visualizations/lab1/media_volume_mensal.json&#34;; vegaEmbed(&#39;#visualicacao-media-volume-mensal&#39;, specMedVolMensal, {&#34;actions&#34; : false}).catch(console.warn);  </description>
+      <description>O açude Epitácio Pessoa, também conhecido como boqueirão, abastece 18 cidades no estado da paraíba. Entre elas podemos destacar Campina Grande, segunda maior cidade do estado. Apesar disso, percebemos que infelizmente os períodos em que o açude atinge sua capacidade máxima são irregulares, o que causava insegurança hídrica nas cidades abastecidas pelo reservatório.
+ Além disso, apesar de o verão na paraíba ocorrer nos meses de janeiro, fevereiro e março, é possível notar pela média dos volumes mensais que o açude apresenta altos volumes nessa época, tendo o menor volume nos meses de maio, junho e julho.</description>
     </item>
     
   </channel>
