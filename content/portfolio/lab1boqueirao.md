@@ -1,7 +1,7 @@
 +++ 
 showonlyimage = false 
 draft = false
-image = "/portfolio-vis//static/img/portfolio/visualizacao_anual.png" 
+image = "/portfolio-vis/static/img/portfolio/visualizacao_anual.png" 
 date = "2016-11-05T18:25:22+05:30" 
 title = "Lab 1 Visualização da Informação 2017.2" 
 weight = 0 
@@ -25,11 +25,4 @@ No final de 2014, devido ao baixo volume da barragem e à falta de previsão chu
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vega-lite/2.0.1/vega-lite.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vega-embed/3.0.0-rc7/vega-embed.js"></script>
 
-<script>
-    const specVolAnual = "/portfolio-vis//visualizations/lab1/volume_anual.json";
-  	vegaEmbed('#visualicacao-volume-anual', specVolAnual, {"actions" : false}).catch(console.warn);
-  	const specVolMensalRacio = "/portfolio-vis/visualizations/lab1/volume_mensal_2012_2017.json";
-  	vegaEmbed('#visualicacao-volume-racionamento', specVolMensalRacio, {"actions" : false}).catch(console.warn);
-  	const specMedVolMensal = "/portfolio-vis//visualizations/lab1/media_volume_mensal.json";
-  	vegaEmbed('#visualicacao-media-volume-mensal', specMedVolMensal, {"actions" : false}).catch(console.warn);
- </script>
+<script src="/portfolio-vis/visualizations/visualizations.conf.js">
