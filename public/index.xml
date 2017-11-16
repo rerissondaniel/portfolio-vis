@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Portofolio de Visualização de dados</title>
-    <link>https://rerissondaniel.github.io/</link>
+    <link>https://rerissondaniel.github.io/portfolio-vis/</link>
     <description>Recent content on Portofolio de Visualização de dados</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy;2017 Rerisson Matos</copyright>
     <lastBuildDate>Sat, 05 Nov 2016 18:25:22 +0530</lastBuildDate>
     
-	<atom:link href="https://rerissondaniel.github.io/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://rerissondaniel.github.io/portfolio-vis/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Lab 1 Visualização da Informação 2017.2</title>
-      <link>https://rerissondaniel.github.io/portfolio/lab1boqueirao/</link>
+      <link>https://rerissondaniel.github.io/portfolio-vis/portfolio/lab1boqueirao/</link>
       <pubDate>Sat, 05 Nov 2016 18:25:22 +0530</pubDate>
       
-      <guid>https://rerissondaniel.github.io/portfolio/lab1boqueirao/</guid>
+      <guid>https://rerissondaniel.github.io/portfolio-vis/portfolio/lab1boqueirao/</guid>
       <description>         const specVolAnual = &#34;/visualizations/lab1/volume_anual.json&#34;; vegaEmbed(&#39;#visualicacao-volume-anual&#39;, specVolAnual, {&#34;actions&#34; : false}).catch(console.warn); const specVolMensalRacio = &#34;/visualizations/lab1/volume_mensal_2012_2017.json&#34;; vegaEmbed(&#39;#visualicacao-volume-racionamento&#39;, specVolMensalRacio, {&#34;actions&#34; : false}).catch(console.warn); const specMedVolMensal = &#34;/visualizations/lab1/media_volume_mensal.json&#34;; vegaEmbed(&#39;#visualicacao-media-volume-mensal&#39;, specMedVolMensal, {&#34;actions&#34; : false}).catch(console.warn);  </description>
     </item>
     
