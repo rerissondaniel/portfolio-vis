@@ -1,7 +1,7 @@
 +++ 
 showonlyimage = false 
 draft = false
-image = "/static/img/portfolio/visualizacao_anual.png" 
+image = "/portfolio-vis//static/img/portfolio/visualizacao_anual.png" 
 date = "2016-11-05T18:25:22+05:30" 
 title = "Lab 1 Visualização da Informação 2017.2" 
 weight = 0 
@@ -12,6 +12,7 @@ weight = 0
 </div>
 
 <div id="visualicacao-volume-anual" width=300></div>
+O açude Epitácio Pessoa, também conhecido como boqueirão, abastece 18 cidades no estado da paraíba. Entre elas podemos destacar Campina Grande, segunda maior cidade do estado. Apesar disso, 
 <div id="visualicacao-volume-racionamento" width=300></div>
 <div id="visualicacao-media-volume-mensal" width=300></div>
 
@@ -20,10 +21,10 @@ weight = 0
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vega-embed/3.0.0-rc7/vega-embed.js"></script>
 
 <script>
-    const specVolAnual = "/visualizations/lab1/volume_anual.json";
+    const specVolAnual = "/portfolio-vis//visualizations/lab1/volume_anual.json";
   	vegaEmbed('#visualicacao-volume-anual', specVolAnual, {"actions" : false}).catch(console.warn);
-  	const specVolMensalRacio = "/visualizations/lab1/volume_mensal_2012_2017.json";
+  	const specVolMensalRacio = "/portfolio-vis/visualizations/lab1/volume_mensal_2012_2017.json";
   	vegaEmbed('#visualicacao-volume-racionamento', specVolMensalRacio, {"actions" : false}).catch(console.warn);
-  	const specMedVolMensal = "/visualizations/lab1/media_volume_mensal.json";
+  	const specMedVolMensal = "/portfolio-vis//visualizations/lab1/media_volume_mensal.json";
   	vegaEmbed('#visualicacao-media-volume-mensal', specMedVolMensal, {"actions" : false}).catch(console.warn);
  </script>
