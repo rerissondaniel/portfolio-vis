@@ -3,29 +3,29 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://rerissondaniel.github.io/portfolio/lab1boqueirao/</loc>
+    <loc>https://rerissondaniel.github.io/portfolio-vis/portfolio/lab1boqueirao/</loc>
     <lastmod>2016-11-05T18:25:22+05:30</lastmod>
   </url>
   
   <url>
-    <loc>https://rerissondaniel.github.io/categories/</loc>
+    <loc>https://rerissondaniel.github.io/portfolio-vis/categories/</loc>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://rerissondaniel.github.io/portfolio/</loc>
-    <lastmod>2016-11-05T18:25:22+05:30</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://rerissondaniel.github.io/</loc>
+    <loc>https://rerissondaniel.github.io/portfolio-vis/portfolio/</loc>
     <lastmod>2016-11-05T18:25:22+05:30</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://rerissondaniel.github.io/tags/</loc>
+    <loc>https://rerissondaniel.github.io/portfolio-vis/</loc>
+    <lastmod>2016-11-05T18:25:22+05:30</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://rerissondaniel.github.io/portfolio-vis/tags/</loc>
     <priority>0</priority>
   </url>
   
