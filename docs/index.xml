@@ -2,15 +2,13 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Portfolio de Visualização de dados</title>
-    <link>https://rerissondaniel.github.io/portfolio-vis/</link>
+    <link>https://rerissondaniel.github.io/portfolio-vis/index.xml</link>
     <description>Recent content on Portfolio de Visualização de dados</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy;2017 Rerisson Matos</copyright>
     <lastBuildDate>Tue, 14 Nov 2017 18:25:22 +0530</lastBuildDate>
-    
-	<atom:link href="https://rerissondaniel.github.io/portfolio-vis/index.xml" rel="self" type="application/rss+xml" />
-    
+    <atom:link href="https://rerissondaniel.github.io/portfolio-vis/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Lab 1 Visualização da Informação 2017.2</title>
@@ -18,8 +16,26 @@
       <pubDate>Tue, 14 Nov 2017 18:25:22 +0530</pubDate>
       
       <guid>https://rerissondaniel.github.io/portfolio-vis/portfolio/lab1boqueirao/</guid>
-      <description>O açude Epitácio Pessoa, também conhecido como boqueirão, abastece 18 cidades no estado da paraíba. Entre elas podemos destacar Campina Grande, segunda maior cidade do estado. Apesar disso, percebemos que infelizmente os períodos em que o açude atinge sua capacidade máxima são irregulares, o que causava insegurança hídrica nas cidades abastecidas pelo reservatório.
- Além disso, apesar de o verão na paraíba ocorrer nos meses de janeiro, fevereiro e março, é possível notar pela média dos volumes mensais que o açude apresenta altos volumes nessa época, tendo o menor volume nos meses de maio, junho e julho.</description>
+      <description>&lt;div&gt;
+    
+&lt;/div&gt;
+
+&lt;p&gt;&lt;div id=&#34;visualicacao-volume-anual&#34; width=300&gt;&lt;/div&gt;
+O açude Epitácio Pessoa, também conhecido como boqueirão, abastece 18 cidades no estado da paraíba. Entre elas podemos destacar Campina Grande, segunda maior cidade do estado. Apesar disso, percebemos que infelizmente os períodos em que o açude atinge sua capacidade máxima são irregulares, o que causava
+insegurança hídrica nas cidades abastecidas pelo reservatório.&lt;/p&gt;
+
+&lt;p&gt;&lt;div id=&#34;visualicacao-media-volume-mensal&#34; width=300&gt;&lt;/div&gt;
+Além disso, apesar de o verão na paraíba ocorrer nos meses de janeiro, fevereiro e março, é possível notar pela média dos volumes mensais que o açude apresenta altos volumes nessa época, tendo o menor volume nos meses de maio, junho e julho. Isso nos leva a acreditar que o turismo na região, que aumenta no período junino, afeta o consumo de água da população das cidades abastecidas.
+&lt;br/&gt;
+&lt;div id=&#34;visualicacao-volume-racionamento&#34; width=300&gt;&lt;/div&gt;
+No final de 2014, devido ao baixo volume da barragem e à falta de previsão chuvas, foi iniciado iniciado o racionamento nas cidades abastecidas pelo açude. Entretanto o racionamento não foi suficiente para diminuir o ritmo em que o volume do reservatório diminuia.&lt;/p&gt;
+
+&lt;script src=&#34;https://cdnjs.cloudflare.com/ajax/libs/vega/3.0.7/vega.js&#34;&gt;&lt;/script&gt;
+&lt;script src=&#34;https://cdnjs.cloudflare.com/ajax/libs/vega-lite/2.0.1/vega-lite.js&#34;&gt;&lt;/script&gt;
+&lt;script src=&#34;https://cdnjs.cloudflare.com/ajax/libs/vega-embed/3.0.0-rc7/vega-embed.js&#34;&gt;&lt;/script&gt;
+
+&lt;p&gt;&lt;script src=&#34;https://rerissondaniel.github.io/portfolio-vis/portfolio-vis/visualizations/visualizations.conf.js&#34;&gt;&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -28,7 +44,89 @@
       <pubDate>Tue, 14 Nov 2017 18:25:22 +0530</pubDate>
       
       <guid>https://rerissondaniel.github.io/portfolio-vis/portfolio/lab2boqueirao/</guid>
-      <description>Barras com dados vindos de uma url     .mychart rect { fill: steelblue; } .mychart rect:hover { fill: goldenrod; } .mychart text { font: 12px sans-serif; text-anchor: left; }  &#34;use strict&#34; function desenhaBarras(dados) { var alturaSVG = 400, larguraSVG = 900; var margin = {top: 10, right: 20, bottom:30, left: 45}, // para descolar a vis das bordas do grafico larguraVis = larguraSVG - margin.left - margin.</description>
+      <description>&lt;script src=&#34;https://d3js.org/d3.v4.min.js&#34;&gt;&lt;/script&gt;
+
+&lt;div class=&#34;container&#34;&gt;
+    &lt;div class=&#34;row&#34;&gt;
+      &lt;h2&gt;Barras com dados vindos de uma url&lt;/h2&gt;
+    &lt;/div&gt;
+    &lt;div class=&#34;row mychart&#34; id=&#34;chart&#34;&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;style&gt;
+.mychart rect {
+    fill: steelblue;
+}
+
+.mychart rect:hover {
+    fill: goldenrod;
+}
+
+.mychart text {
+    font: 12px sans-serif;
+    text-anchor: left;
+}
+&lt;/style&gt;
+
+&lt;script type=&#34;text/javascript&#34;&gt;
+    &#34;use strict&#34;
+
+    function desenhaBarras(dados) {
+       var alturaSVG = 400, larguraSVG = 900;
+       var  margin = {top: 10, right: 20, bottom:30, left: 45}, // para descolar a vis das bordas do grafico
+          larguraVis = larguraSVG - margin.left - margin.right,
+          alturaVis = alturaSVG - margin.top - margin.bottom;
+
+          var grafico = d3.select(&#39;#chart&#39;)
+              .append(&#39;svg&#39;)
+                .attr(&#39;height&#39;, alturaSVG)
+                .attr(&#39;width&#39;, larguraSVG)
+              .append(&#39;g&#39;)
+                .attr(&#39;transform&#39;, `translate(${margin.left}, ${margin.right})`);
+
+
+      /*
+       * As escalas
+       */
+      var x = d3.scaleBand().domain(dados.map((dado) =&gt; dado.letra)).rangeRound([0, larguraVis]).padding(0.2);
+
+      var y = d3.scaleLinear().domain([d3.max(dados.map((dado) =&gt; dado.valor)), 0]).rangeRound([0, alturaVis]);
+
+      /*
+       * As marcas
+       */
+      grafico.selectAll(&#39;g&#39;)
+              .data(dados)
+              .enter()
+                .append(&#39;rect&#39;)
+                  .attr(&#39;x&#39;, d =&gt; x(d.letra))   // usando a escala definida acima
+                  .attr(&#39;width&#39;, x.bandwidth()) // largura da barra via escala
+                  .attr(&#39;y&#39;, d =&gt; y(d.valor))
+                  .attr(&#39;height&#39;, (d) =&gt; alturaVis - y(d.valor)); // de cabeca para baixo
+
+      /*
+       * Os eixos
+       */
+      grafico.append(&#34;g&#34;)
+              .attr(&#34;class&#34;, &#34;x axis&#34;)
+              .attr(&#34;transform&#34;, &#34;translate(0,&#34; + alturaVis + &#34;)&#34;)
+              .call(d3.axisBottom(x)); // magica do d3: gera eixo a partir da escala
+
+      grafico.append(&#39;g&#39;)
+              .attr(&#39;transform&#39;, &#39;translate(0,0)&#39;)
+              .call(d3.axisLeft(y))  // gera eixo a partir da escala
+
+      grafico.append(&#34;text&#34;)
+        .attr(&#34;transform&#34;, &#34;translate(-30,&#34; + (alturaVis + margin.top)/2 + &#34;) rotate(-90)&#34;)
+        .text(&#34;Frequencia&#34;);
+    }
+
+    d3.json(&#39;/portfolio-vis/static/data/boqueirao-por-mes.json&#39;, function(dados) {
+      desenhaGrafico(dados);
+    });
+  &lt;/script&gt;
+</description>
     </item>
     
   </channel>
