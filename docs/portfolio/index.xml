@@ -7,7 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy;2017 Rerisson Matos</copyright>
-    <lastBuildDate>Sat, 05 Nov 2016 18:25:22 +0530</lastBuildDate>
+    <lastBuildDate>Tue, 14 Nov 2017 18:25:22 +0530</lastBuildDate>
     
 	<atom:link href="https://rerissondaniel.github.io/portfolio-vis/portfolio/index.xml" rel="self" type="application/rss+xml" />
     
@@ -15,11 +15,20 @@
     <item>
       <title>Lab 1 Visualização da Informação 2017.2</title>
       <link>https://rerissondaniel.github.io/portfolio-vis/portfolio/lab1boqueirao/</link>
-      <pubDate>Sat, 05 Nov 2016 18:25:22 +0530</pubDate>
+      <pubDate>Tue, 14 Nov 2017 18:25:22 +0530</pubDate>
       
       <guid>https://rerissondaniel.github.io/portfolio-vis/portfolio/lab1boqueirao/</guid>
       <description>O açude Epitácio Pessoa, também conhecido como boqueirão, abastece 18 cidades no estado da paraíba. Entre elas podemos destacar Campina Grande, segunda maior cidade do estado. Apesar disso, percebemos que infelizmente os períodos em que o açude atinge sua capacidade máxima são irregulares, o que causava insegurança hídrica nas cidades abastecidas pelo reservatório.
  Além disso, apesar de o verão na paraíba ocorrer nos meses de janeiro, fevereiro e março, é possível notar pela média dos volumes mensais que o açude apresenta altos volumes nessa época, tendo o menor volume nos meses de maio, junho e julho.</description>
+    </item>
+    
+    <item>
+      <title>Lab 1 Visualização da Informação 2017.2</title>
+      <link>https://rerissondaniel.github.io/portfolio-vis/portfolio/lab2boqueirao/</link>
+      <pubDate>Tue, 14 Nov 2017 18:25:22 +0530</pubDate>
+      
+      <guid>https://rerissondaniel.github.io/portfolio-vis/portfolio/lab2boqueirao/</guid>
+      <description>Barras com dados vindos de uma url     .mychart rect { fill: steelblue; } .mychart rect:hover { fill: goldenrod; } .mychart text { font: 12px sans-serif; text-anchor: left; }  &#34;use strict&#34; function desenhaBarras(dados) { var alturaSVG = 400, larguraSVG = 900; var margin = {top: 10, right: 20, bottom:30, left: 45}, // para descolar a vis das bordas do grafico larguraVis = larguraSVG - margin.left - margin.</description>
     </item>
     
   </channel>

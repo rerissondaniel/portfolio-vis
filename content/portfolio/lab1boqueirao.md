@@ -2,7 +2,7 @@
 showonlyimage = false 
 draft = false
 image = "/portfolio-vis/static/img/portfolio/visualizacao_anual.png" 
-date = "2016-11-05T18:25:22+05:30" 
+date = "2017-11-14T18:25:22+05:30" 
 title = "Lab 1 Visualização da Informação 2017.2" 
 weight = 0 
 +++

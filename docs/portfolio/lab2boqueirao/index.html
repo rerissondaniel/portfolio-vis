@@ -120,25 +120,88 @@
     <div class="col-lg-8">
       <div class="content-column-content">
          <h1>Lab 1 Visualização da Informação 2017.2</h1>
-         <div>
-    
+         <script src="https://d3js.org/d3.v4.min.js"></script>
+
+<div class="container">
+    <div class="row">
+      <h2>Barras com dados vindos de uma url</h2>
+    </div>
+    <div class="row mychart" id="chart">
+    </div>
 </div>
 
-<p><div id="visualicacao-volume-anual" width=300></div>
-O açude Epitácio Pessoa, também conhecido como boqueirão, abastece 18 cidades no estado da paraíba. Entre elas podemos destacar Campina Grande, segunda maior cidade do estado. Apesar disso, percebemos que infelizmente os períodos em que o açude atinge sua capacidade máxima são irregulares, o que causava
-insegurança hídrica nas cidades abastecidas pelo reservatório.</p>
+<style>
+.mychart rect {
+    fill: steelblue;
+}
 
-<p><div id="visualicacao-media-volume-mensal" width=300></div>
-Além disso, apesar de o verão na paraíba ocorrer nos meses de janeiro, fevereiro e março, é possível notar pela média dos volumes mensais que o açude apresenta altos volumes nessa época, tendo o menor volume nos meses de maio, junho e julho. Isso nos leva a acreditar que o turismo na região, que aumenta no período junino, afeta o consumo de água da população das cidades abastecidas.
-<br/>
-<div id="visualicacao-volume-racionamento" width=300></div>
-No final de 2014, devido ao baixo volume da barragem e à falta de previsão chuvas, foi iniciado iniciado o racionamento nas cidades abastecidas pelo açude. Entretanto o racionamento não foi suficiente para diminuir o ritmo em que o volume do reservatório diminuia.</p>
+.mychart rect:hover {
+    fill: goldenrod;
+}
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vega/3.0.7/vega.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vega-lite/2.0.1/vega-lite.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/vega-embed/3.0.0-rc7/vega-embed.js"></script>
+.mychart text {
+    font: 12px sans-serif;
+    text-anchor: left;
+}
+</style>
 
-<p><script src="/portfolio-vis/visualizations/visualizations.conf.js"></p>
+<script type="text/javascript">
+    "use strict"
+
+    function desenhaBarras(dados) {
+       var alturaSVG = 400, larguraSVG = 900;
+       var  margin = {top: 10, right: 20, bottom:30, left: 45}, // para descolar a vis das bordas do grafico
+          larguraVis = larguraSVG - margin.left - margin.right,
+          alturaVis = alturaSVG - margin.top - margin.bottom;
+
+          var grafico = d3.select('#chart')
+              .append('svg')
+                .attr('height', alturaSVG)
+                .attr('width', larguraSVG)
+              .append('g')
+                .attr('transform', `translate(${margin.left}, ${margin.right})`);
+
+
+      /*
+       * As escalas
+       */
+      var x = d3.scaleBand().domain(dados.map((dado) => dado.letra)).rangeRound([0, larguraVis]).padding(0.2);
+
+      var y = d3.scaleLinear().domain([d3.max(dados.map((dado) => dado.valor)), 0]).rangeRound([0, alturaVis]);
+
+      /*
+       * As marcas
+       */
+      grafico.selectAll('g')
+              .data(dados)
+              .enter()
+                .append('rect')
+                  .attr('x', d => x(d.letra))   // usando a escala definida acima
+                  .attr('width', x.bandwidth()) // largura da barra via escala
+                  .attr('y', d => y(d.valor))
+                  .attr('height', (d) => alturaVis - y(d.valor)); // de cabeca para baixo
+
+      /*
+       * Os eixos
+       */
+      grafico.append("g")
+              .attr("class", "x axis")
+              .attr("transform", "translate(0," + alturaVis + ")")
+              .call(d3.axisBottom(x)); // magica do d3: gera eixo a partir da escala
+
+      grafico.append('g')
+              .attr('transform', 'translate(0,0)')
+              .call(d3.axisLeft(y))  // gera eixo a partir da escala
+
+      grafico.append("text")
+        .attr("transform", "translate(-30," + (alturaVis + margin.top)/2 + ") rotate(-90)")
+        .text("Frequencia");
+    }
+
+    d3.json('/portfolio-vis/static/data/boqueirao-por-mes.json', function(dados) {
+      desenhaGrafico(dados);
+    });
+  </script>
 
          
       </div>
