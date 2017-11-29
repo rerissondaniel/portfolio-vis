@@ -2,8 +2,8 @@
 showonlyimage = false 
 draft = false
 image = "/portfolio-vis/static/img/portfolio/visualizacao_anual.png" 
-date = "2017-11-29T18:25:22+05:30" 
-title = "Lab 2 Visualização da Informação 2017.2" 
+date = "2017-11-14T18:25:22+05:30" 
+title = "Lab 1 Visualização da Informação 2017.2" 
 weight = 0 
 +++
 
@@ -35,13 +35,11 @@ weight = 0
 <script type="text/javascript">
     "use strict"
 
-    function desenhaGrafico(dados) {
+    function desenhaBarras(dados) {
        var alturaSVG = 400, larguraSVG = 900;
        var	margin = {top: 10, right: 20, bottom:30, left: 45}, // para descolar a vis das bordas do grafico
           larguraVis = larguraSVG - margin.left - margin.right,
           alturaVis = alturaSVG - margin.top - margin.bottom;
-
-        var alturaCirculos = alturaVis / 2;
 
           var grafico = d3.select('#chart')
               .append('svg')
@@ -54,35 +52,21 @@ weight = 0
       /*
        * As escalas
        */
-      var x = d3.scaleLinear().domain([0, 12]).rangeRound([0, larguraVis]);
- 
-      var rDezPercentil = d3.scaleLinear().domain([0, d3.max(dados, (d) => d['dez_percentil'])]).range([1, larguraVis / 12]);
-      var rNovPercentil = d3.scaleLinear().domain([0, d3.max(dados, (d) => d['noventa-percentil'])]).range([1, larguraVis / 12]);
+      var x = d3.scaleBand().domain(dados.map((dado) => dado.letra)).rangeRound([0, larguraVis]).padding(0.2);
 
-    /* As marcas*/
+      var y = d3.scaleLinear().domain([d3.max(dados.map((dado) => dado.valor)), 0]).rangeRound([0, alturaVis]);
+
+      /*
+       * As marcas
+       */
       grafico.selectAll('g')
               .data(dados)
               .enter()
-                .append('circle')//Círculo do noventa percentil
-                  .attr('cx', d => x(d.mes)) 
-                  .attr('cy', d => alturaCirculos)
-                  .attr('r', (d) => rNovPercentil(d))
-                .append('circle')//Círculo do dez percentil
-                  .attr('cx', d => x(d.mes))
-                  .attr('cy', d => alturaCirculos)
-                  .attr('r', (d) =>  rDezPercentil(d));
-
-      /*
-      //  * As marcas
-      //  */
-      // grafico.selectAll('g')
-      //         .data(dados)
-      //         .enter() 
-      //           .append('circle')
-      //             .attr('x', d => x(d.letra))   // usando a escala definida acima
-      //             .attr('width', x.bandwidth()) // largura da barra via escala
-      //             .attr('y', d => y(d.valor))
-      //             .attr('height', (d) => alturaVis - y(d.valor)); // de cabeca para baixo
+                .append('rect')
+                  .attr('x', d => x(d.letra))   // usando a escala definida acima
+                  .attr('width', x.bandwidth()) // largura da barra via escala
+                  .attr('y', d => y(d.valor))
+                  .attr('height', (d) => alturaVis - y(d.valor)); // de cabeca para baixo
 
       /*
        * Os eixos
@@ -92,9 +76,13 @@ weight = 0
               .attr("transform", "translate(0," + alturaVis + ")")
               .call(d3.axisBottom(x)); // magica do d3: gera eixo a partir da escala
 
-      // grafico.append("text")
-      //   .attr("transform", "translate(-30," + (alturaVis + margin.top)/2 + ") rotate(-90)")
-      //   .text("Frequencia");
+      grafico.append('g')
+              .attr('transform', 'translate(0,0)')
+              .call(d3.axisLeft(y))  // gera eixo a partir da escala
+
+      grafico.append("text")
+        .attr("transform", "translate(-30," + (alturaVis + margin.top)/2 + ") rotate(-90)")
+        .text("Frequencia");
     }
 
     d3.json('/portfolio-vis/static/data/boqueirao-por-mes.json', function(dados) {
