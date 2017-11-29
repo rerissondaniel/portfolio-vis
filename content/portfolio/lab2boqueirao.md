@@ -3,7 +3,7 @@ showonlyimage = false
 draft = false
 image = "/portfolio-vis/static/img/portfolio/visualizacao_anual.png" 
 date = "2017-11-14T18:25:22+05:30" 
-title = "Lab 1 Visualização da Informação 2017.2" 
+title = "Lab 2 Visualização da Informação 2017.2" 
 weight = 0 
 +++
 
@@ -11,15 +11,23 @@ weight = 0
 
 <div class="container">
     <div class="row">
-      <h2>Barras com dados vindos de uma url</h2>
+      <h2>Pontos com dados vindos de uma url</h2>
     </div>
     <div class="row mychart" id="chart">
     </div>
 </div>
 
 <style>
-.mychart rect {
+.chuvoso {
     fill: steelblue;
+    font: 12px sans-serif;
+    text-anchor: left;
+}
+
+.nao-chuvoso {
+    fill: goldenrod;
+    font: 12px sans-serif;
+    text-anchor: left;
 }
 
 .mychart rect:hover {
@@ -35,7 +43,7 @@ weight = 0
 <script type="text/javascript">
     "use strict"
 
-    function desenhaBarras(dados) {
+    function desenhaGrafico(dados) {
        var alturaSVG = 400, larguraSVG = 900;
        var	margin = {top: 10, right: 20, bottom:30, left: 45}, // para descolar a vis das bordas do grafico
           larguraVis = larguraSVG - margin.left - margin.right,
@@ -48,29 +56,27 @@ weight = 0
               .append('g')
                 .attr('transform', `translate(${margin.left}, ${margin.right})`);
 
+          var alturaCirculos = alturaVis / 2;
+
 
       /*
        * As escalas
        */
-      var x = d3.scaleBand().domain(dados.map((dado) => dado.letra)).rangeRound([0, larguraVis]).padding(0.2);
+      const noventaPercentis = dados.map((dado) => dado['noventa-percentil']);
+      var x = d3.scaleLinear().domain([d3.min(noventaPercentis), d3.max(noventaPercentis)]).range([0, larguraVis]);
 
-      var y = d3.scaleLinear().domain([d3.max(dados.map((dado) => dado.valor)), 0]).rangeRound([0, alturaVis]);
+      const dezPercentis = dados.map((dado) => dado['dez_percentil']);
+      var y = d3.scaleLinear().domain([d3.max(dezPercentis), d3.min(dezPercentis)]).range([0, alturaVis]);
 
-      /*
-       * As marcas
-       */
-      grafico.selectAll('g')
-              .data(dados)
-              .enter()
-                .append('rect')
-                  .attr('x', d => x(d.letra))   // usando a escala definida acima
-                  .attr('width', x.bandwidth()) // largura da barra via escala
-                  .attr('y', d => y(d.valor))
-                  .attr('height', (d) => alturaVis - y(d.valor)); // de cabeca para baixo
+       grafico.selectAll('g')
+               .data(dados)
+               .enter().append('g')
+                   .append('circle')//Círculo do noventa percentil
+                   .attr('cx', d => x(d['noventa-percentil'])) 
+                   .attr('cy', d => y(d['dez_percentil']))
+                   .attr('r', d => 3)
+                   .attr('class', d => d.mes >= 2 && d.mes <= 8? 'chuvoso' : 'nao-chuvoso');
 
-      /*
-       * Os eixos
-       */
       grafico.append("g")
               .attr("class", "x axis")
               .attr("transform", "translate(0," + alturaVis + ")")
@@ -82,7 +88,11 @@ weight = 0
 
       grafico.append("text")
         .attr("transform", "translate(-30," + (alturaVis + margin.top)/2 + ") rotate(-90)")
-        .text("Frequencia");
+        .text("Dez-percentil");
+
+      grafico.append("text")
+        .attr("transform", `translate(${(larguraVis + margin.left + margin.right)/2}, ${alturaVis + 30})`)
+        .text("Noventa-percentil");
     }
 
     d3.json('/portfolio-vis/static/data/boqueirao-por-mes.json', function(dados) {
