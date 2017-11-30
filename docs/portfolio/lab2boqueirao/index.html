@@ -2,7 +2,7 @@
 <html lang="en-us">
 <head><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>Lab 1 Visualização da Informação 2017.2</title>
+<title>Lab 2 Visualização da Informação 2017.2</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="all,follow">
@@ -119,20 +119,27 @@
   <div class="row">
     <div class="col-lg-8">
       <div class="content-column-content">
-         <h1>Lab 1 Visualização da Informação 2017.2</h1>
+         <h1>Lab 2 Visualização da Informação 2017.2</h1>
          <script src="https://d3js.org/d3.v4.min.js"></script>
 
 <div class="container">
     <div class="row">
-      <h2>Barras com dados vindos de uma url</h2>
+      <h2>Pontos com dados vindos de uma url</h2>
     </div>
     <div class="row mychart" id="chart">
+    Pontos Azuis: Meses chuvosos<br/>
+    Pontos dourados: Meses não chuvosos
+    (tentei usar labels que apareciam com hover como pode ser visto no código, mas não consegui.)
     </div>
 </div>
 
 <style>
-.mychart rect {
+.chuvoso {
     fill: steelblue;
+}
+
+.nao-chuvoso {
+    fill: goldenrod;
 }
 
 .mychart rect:hover {
@@ -143,14 +150,25 @@
     font: 12px sans-serif;
     text-anchor: left;
 }
+
+.label-meses {
+  display: none;
+}
+
+.label-meses:hover {
+  display: inline-block;
+  font: 12px sans-serif;
+  text-anchor: left;
+}
+
 </style>
 
 <script type="text/javascript">
     "use strict"
 
-    function desenhaBarras(dados) {
+    function desenhaGrafico(dados) {
        var alturaSVG = 400, larguraSVG = 900;
-       var  margin = {top: 10, right: 20, bottom:30, left: 45}, // para descolar a vis das bordas do grafico
+       var  margin = {top: 10, right: 20, bottom:30, left: 45},
           larguraVis = larguraSVG - margin.left - margin.right,
           alturaVis = alturaSVG - margin.top - margin.bottom;
 
@@ -161,41 +179,50 @@
               .append('g')
                 .attr('transform', `translate(${margin.left}, ${margin.right})`);
 
+          var alturaCirculos = alturaVis / 2;
+      const FEVEREIRO = 2, AGOSTO = 8;
 
       /*
        * As escalas
        */
-      var x = d3.scaleBand().domain(dados.map((dado) => dado.letra)).rangeRound([0, larguraVis]).padding(0.2);
+      const noventaPercentis = dados.map((dado) => dado['noventa-percentil']);
+      var x = d3.scaleLinear().domain([d3.min(noventaPercentis), d3.max(noventaPercentis)]).range([0, larguraVis]);
 
-      var y = d3.scaleLinear().domain([d3.max(dados.map((dado) => dado.valor)), 0]).rangeRound([0, alturaVis]);
+      const dezPercentis = dados.map((dado) => dado['dez_percentil']);
+      var y = d3.scaleLinear().domain([d3.max(dezPercentis), d3.min(dezPercentis)]).range([0, alturaVis]);
 
-      /*
-       * As marcas
-       */
-      grafico.selectAll('g')
-              .data(dados)
-              .enter()
-                .append('rect')
-                  .attr('x', d => x(d.letra))   // usando a escala definida acima
-                  .attr('width', x.bandwidth()) // largura da barra via escala
-                  .attr('y', d => y(d.valor))
-                  .attr('height', (d) => alturaVis - y(d.valor)); // de cabeca para baixo
+      var containerCirculos = grafico.selectAll('g')
+               .data(dados)
+               .enter().append('g');
 
-      /*
-       * Os eixos
-       */
+      containerCirculos.append('circle')
+                   .attr('cx', d => x(d['noventa-percentil'])) 
+                   .attr('cy', d => y(d['dez_percentil']))
+                   .attr('r', 5)
+                   .attr('class', d => d.mes >= FEVEREIRO && d.mes <= AGOSTO? 'chuvoso' : 'nao-chuvoso');
+
+      containerCirculos.append('text')
+              .attr('dx', d => x(d['noventa-percentil']))
+              .attr('dy', d =>y(d['dez_percentil']))
+              .attr('class', 'label-meses')
+              .text(d=>d.mes >= FEVEREIRO && d.mes <= AGOSTO? 'Mês chuvoso' : 'Mês não chuvoso');
+
       grafico.append("g")
               .attr("class", "x axis")
               .attr("transform", "translate(0," + alturaVis + ")")
-              .call(d3.axisBottom(x)); // magica do d3: gera eixo a partir da escala
+              .call(d3.axisBottom(x)); 
 
       grafico.append('g')
               .attr('transform', 'translate(0,0)')
-              .call(d3.axisLeft(y))  // gera eixo a partir da escala
+              .call(d3.axisLeft(y))
 
       grafico.append("text")
         .attr("transform", "translate(-30," + (alturaVis + margin.top)/2 + ") rotate(-90)")
-        .text("Frequencia");
+        .text("Dez-percentil");
+
+      grafico.append("text")
+        .attr("transform", `translate(${(larguraVis + margin.left + margin.right)/2}, ${alturaVis})`)
+        .text("Noventa-percentil");
     }
 
     d3.json('/portfolio-vis/static/data/boqueirao-por-mes.json', function(dados) {

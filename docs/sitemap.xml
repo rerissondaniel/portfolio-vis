@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
     <loc>https://rerissondaniel.github.io/portfolio-vis/portfolio/lab1boqueirao/</loc>
@@ -12,6 +13,11 @@
   </url>
   
   <url>
+    <loc>https://rerissondaniel.github.io/portfolio-vis/categories/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://rerissondaniel.github.io/portfolio-vis/</loc>
     <lastmod>2017-11-14T18:25:22+05:30</lastmod>
     <priority>0</priority>
@@ -20,6 +26,11 @@
   <url>
     <loc>https://rerissondaniel.github.io/portfolio-vis/portfolio/</loc>
     <lastmod>2017-11-14T18:25:22+05:30</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://rerissondaniel.github.io/portfolio-vis/tags/</loc>
     <priority>0</priority>
   </url>
   
