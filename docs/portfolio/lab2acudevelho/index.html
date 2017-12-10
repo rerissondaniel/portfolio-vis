@@ -2,7 +2,7 @@
 <html lang="en-us">
 <head><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>Lab 2 Visualização da Informação 2017.2 - Boqueirão</title>
+<title>Um retrato do gênero dos Ocupantes do Açude Velho</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="all,follow">
@@ -119,114 +119,143 @@
   <div class="row">
     <div class="col-lg-8">
       <div class="content-column-content">
-         <h1>Lab 2 Visualização da Informação 2017.2 - Boqueirão</h1>
+         <h1>Um retrato do gênero dos Ocupantes do Açude Velho</h1>
          <script src="https://d3js.org/d3.v4.min.js"></script>
 
 <div class="container">
-    <div class="row">
-      <h2>Pontos com dados vindos de uma url</h2>
+    <div class="row mychart" id="chart-gen-hor">
+    
     </div>
-    <div class="row mychart" id="chart">
-    Pontos Azuis: Meses chuvosos<br/>
-    Pontos dourados: Meses não chuvosos
-    (tentei usar labels que apareciam com hover como pode ser visto no código, mas não consegui.)
-    </div>
-</div>
+    
+
+<pre><code>&lt;div class=&quot;row mychart&quot; id=&quot;chart-gen-meio-transporte&quot;&gt;
+
+&lt;/div&gt;
+</code></pre>
+
+<p></div></p>
 
 <style>
-.chuvoso {
-    fill: steelblue;
+
+.linha-homem{
+    stroke: green;
+    stroke-width: 2;
+    fill: none;
 }
 
-.nao-chuvoso {
-    fill: goldenrod;
+.linha-mulher{
+    stroke: red;
+    stroke-width: 2;
+    fill: none;
 }
-
-.mychart rect:hover {
-    fill: goldenrod;
-}
-
-.mychart text {
-    font: 12px sans-serif;
-    text-anchor: left;
-}
-
-.label-meses {
-  display: none;
-}
-
-.label-meses:hover {
-  display: inline-block;
-  font: 12px sans-serif;
-  text-anchor: left;
-}
-
 </style>
 
 <script type="text/javascript">
     "use strict"
 
-    function desenhaGrafico(dados) {
+    function desenhaGraficoGeneroHorario(dados) {
        var alturaSVG = 400, larguraSVG = 900;
        var  margin = {top: 10, right: 20, bottom:30, left: 45},
           larguraVis = larguraSVG - margin.left - margin.right,
           alturaVis = alturaSVG - margin.top - margin.bottom;
 
-          var grafico = d3.select('#chart')
+          var grafico = d3.select('#chart-gen-hor')
               .append('svg')
                 .attr('height', alturaSVG)
                 .attr('width', larguraSVG)
               .append('g')
                 .attr('transform', `translate(${margin.left}, ${margin.right})`);
+        
+        
 
-          var alturaCirculos = alturaVis / 2;
-      const FEVEREIRO = 2, AGOSTO = 8;
+      function unique(a){
+        return a.filter(function(item, i, ar){ return ar.indexOf(item) === i});      
+      }
 
-      /*
-       * As escalas
-       */
-      const noventaPercentis = dados.map((dado) => dado['noventa-percentil']);
-      var x = d3.scaleLinear().domain([d3.min(noventaPercentis), d3.max(noventaPercentis)]).range([0, larguraVis]);
+      function processaDados(dados){
+        const horarios = unique(dados.map(dado => dado.horario_final));
+        const result = [];
+        horarios.forEach(function(horario){
+            const dadosComHorario = dados.filter((item) => item.horario_final === horario);
+            let dadoProcessado = {
+                horario: horario,
+                homens: 0,
+                mulheres: 0            
+            };
+            dadosComHorario.forEach((dado)=> {
+                 dadoProcessado.homens += (parseInt(dado.homens_ciclistas) + parseInt(dado.homens_pedestres));
+                 dadoProcessado.mulheres += (parseInt(dado.mulheres_ciclistas) + parseInt(dado.mulheres_pedestres)); 
+            });
+            result.push(dadoProcessado);
+        });
+        
+        return result;
+      }
+      
+      dados = processaDados(dados);
+      
+      function apenasHoras(a){
+        return a.filter((item) => item.endsWith("00"));
+      };
+      
+      function horaComoInt(h){
+        return parseInt(h.replace(':', ''));
+      }
+      
+      const horasComoInt = dados.map((dado) => horaComoInt(dado.horario));
+      const x = d3.scaleLinear().domain([d3.min(horasComoInt), d3.max(horasComoInt)]).rangeRound([0, larguraVis]).clamp(true);
+      
+      const homens = dados.map((dado) => dado.homens);
+      const yHomem = d3.scaleLinear().domain([d3.max(homens), d3.min(homens)]).range([0, alturaVis]);
+      
+      const mulheres = dados.map((dado) => dado.mulheres);
+      const yMulher = d3.scaleLinear().domain([d3.max(mulheres), d3.min(mulheres)]).range([0, alturaVis]);
 
-      const dezPercentis = dados.map((dado) => dado['dez_percentil']);
-      var y = d3.scaleLinear().domain([d3.max(dezPercentis), d3.min(dezPercentis)]).range([0, alturaVis]);
 
-      var containerCirculos = grafico.selectAll('g')
+      const containerCirculos = grafico.selectAll('g')
                .data(dados)
                .enter().append('g');
 
-      containerCirculos.append('circle')
-                   .attr('cx', d => x(d['noventa-percentil'])) 
-                   .attr('cy', d => y(d['dez_percentil']))
+      /*containerCirculos.append('circle')
+                   .attr('cx', d => x(horaComoInt(d.horario))) 
+                   .attr('cy', d => yHomem(d.homens))
                    .attr('r', 5)
-                   .attr('class', d => d.mes >= FEVEREIRO && d.mes <= AGOSTO? 'chuvoso' : 'nao-chuvoso');
-
-      containerCirculos.append('text')
-              .attr('dx', d => x(d['noventa-percentil']))
-              .attr('dy', d =>y(d['dez_percentil']))
-              .attr('class', 'label-meses')
-              .text(d=>d.mes >= FEVEREIRO && d.mes <= AGOSTO? 'Mês chuvoso' : 'Mês não chuvoso');
-
+                   .attr('class', 'ponto-homem');*/
+                   
+      grafico.append('path')
+                         .attr('d', d3.line().x((d) =>x(horaComoInt(d.horario))).y((d) => yHomem(d.homens))(dados)) 
+                         .attr('class', 'linha-homem');
+      
+      grafico.append('path')
+                          .attr('d', d3.line().x((d) =>x(horaComoInt(d.horario))).y((d) => yMulher(d.mulheres))(dados)) 
+                          .attr('class', 'linha-mulher');
+      /*              
+      containerCirculos.append('circle')
+                   .attr('cx', d => x(horaComoInt(d.horario))) 
+                   .attr('cy', d => yMulher(d.mulheres))
+                   .attr('r', 5)
+                   .attr('class', 'ponto-mulher');
+        */
+        
+      const horas = apenasHoras(dados.map((dado) => (dado.horario)));
+      const horasEixo = d3.scaleBand().domain(horas).rangeRound([0, larguraVis]);
       grafico.append("g")
               .attr("class", "x axis")
               .attr("transform", "translate(0," + alturaVis + ")")
-              .call(d3.axisBottom(x)); 
-
+              .call(d3.axisBottom(horasEixo)); 
+      
+      const qtdEixo = d3.scaleLinear().domain([d3.max(homens.concat(mulheres)), d3.min(homens.concat(mulheres))]).range([0, alturaVis]);
       grafico.append('g')
               .attr('transform', 'translate(0,0)')
-              .call(d3.axisLeft(y))
+              .call(d3.axisLeft(qtdEixo))
 
       grafico.append("text")
         .attr("transform", "translate(-30," + (alturaVis + margin.top)/2 + ") rotate(-90)")
-        .text("Dez-percentil");
-
-      grafico.append("text")
-        .attr("transform", `translate(${(larguraVis + margin.left + margin.right)/2}, ${alturaVis})`)
-        .text("Noventa-percentil");
+        .text("Quantidade");
     }
 
-    d3.json('/portfolio-vis/static/data/boqueirao-por-mes.json', function(dados) {
-      desenhaGrafico(dados);
+    d3.csv('/portfolio-vis/static/data/acude-velho.csv', function(dados) {
+      desenhaGraficoGeneroHorario(dados);
     });
   </script>
 

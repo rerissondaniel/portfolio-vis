@@ -3,7 +3,7 @@ showonlyimage = false
 draft = false
 image = "/portfolio-vis/static/img/portfolio/nov_dez_percentil.png" 
 date = "2017-11-14T18:25:22+05:30" 
-title = "Lab 2 Visualização da Informação 2017.2" 
+title = "Lab 2 Visualização da Informação 2017.2 - Boqueirão" 
 weight = 0 
 +++
 
