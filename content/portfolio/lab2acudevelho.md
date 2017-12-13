@@ -10,11 +10,11 @@ weight = 0
 <script src="https://d3js.org/d3.v4.min.js"></script>
 
 <div class="container">
-    <div class="row mychart" id="chart-gen-hor">
+   <!--  <div id="chart-gen-hor">
     
-    </div>
+    </div> -->
     
-    <div class="row mychart" id="chart-gen-meio-transporte">
+    <div id="chart-gen-meio-transporte">
         
     </div>
     
@@ -33,6 +33,16 @@ weight = 0
     stroke-width: 2;
     fill: none;
 }
+
+.barra-homem{
+  fill: green;
+}
+
+.barra-mulher{
+  fill: red;
+}
+
+
 </style>
 
 <script type="text/javascript">
@@ -67,10 +77,27 @@ weight = 0
           return resultado;
         }
 
-        const dados = processaDados(dados);
+        dados = processaDados(dados);
+        const labels = ['Homens Ciclistas', 'Mulheres Ciclistas', 'Homens Pedestres', 'Mulheres Pedestres'];
 
-        const x = d3.scaleBand().domain(['Homens Ciclistas', 'Mulheres Ciclistas', 'Homens Pedestres', 'Mulheres Pedestres']).rangeRound([0, larguraVis]).padding(1);
-        const y = d3.scaleLinear(dados).domain();
+        const x = d3.scaleBand().domain(labels).rangeRound([0, larguraVis]).padding(0.1);
+        const y = d3.scaleLinear([d3.min(dados), d3.max(dados)]).domain([0, alturaVis]);
+
+        grafico.selectAll('g')
+              .data(dados)
+              .enter()
+                .append('rect')
+                  .attr('x', (d, i) => x(labels[i]))
+                  .attr('width', x.bandwidth())
+                  .attr('y', d => y(d))
+                  .attr('height', (d) => alturaVis - y(d))
+                  .attr('class', (d, i) => i % 2 == 0 ? 'barra-homem' : 'barra-mulher');
+
+        grafico.append("g")
+              .attr("class", "x axis")
+              .attr("transform", "translate(0," + alturaVis + ")")
+              .call(d3.axisBottom(x));
+
     }
 
     function desenhaGraficoGeneroHorario(dados) {
