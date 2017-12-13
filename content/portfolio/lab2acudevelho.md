@@ -38,18 +38,53 @@ weight = 0
 <script type="text/javascript">
     "use strict"
 
+    function desenhaBarrasGenTransp(dados){
+        var alturaSVG = 400, larguraSVG = 900;
+        var  margin = {top: 10, right: 20, bottom:30, left: 45},
+            larguraVis = larguraSVG - margin.left - margin.right,
+            alturaVis = alturaSVG - margin.top - margin.bottom;
+
+        var grafico = d3.select('#chart-gen-meio-transporte')
+            .append('svg')
+              .attr('height', alturaSVG)
+              .attr('width', larguraSVG)
+            .append('g')
+              .attr('transform', `translate(${margin.left}, ${margin.right})`);
+
+        function processaDados(dados){
+          var resultado = [0, 0, 0, 0];
+          dados.forEach(dado => {
+            //0 = mulheres ciclistas
+            resultado[0] += Number(dado.mulheres_ciclistas);
+            //1 = mulheres pedestres
+            resultado[1] += Number(dado.mulheres_pedestres);
+            //2 = homens ciclistas
+            resultado[2] += Number(dado.homens_ciclistas);
+            //3 = homens pedestres
+            resultado[3] += Number(dado.homens_pedestres);
+          });
+
+          return resultado;
+        }
+
+        const dados = processaDados(dados);
+
+        const x = d3.scaleBand().domain(['Homens Ciclistas', 'Mulheres Ciclistas', 'Homens Pedestres', 'Mulheres Pedestres']).rangeRound([0, larguraVis]).padding(1);
+        const y = d3.scaleLinear(dados).domain();
+    }
+
     function desenhaGraficoGeneroHorario(dados) {
        var alturaSVG = 400, larguraSVG = 900;
        var	margin = {top: 10, right: 20, bottom:30, left: 45},
           larguraVis = larguraSVG - margin.left - margin.right,
           alturaVis = alturaSVG - margin.top - margin.bottom;
 
-          var grafico = d3.select('#chart-gen-hor')
-              .append('svg')
-                .attr('height', alturaSVG)
-                .attr('width', larguraSVG)
-              .append('g')
-                .attr('transform', `translate(${margin.left}, ${margin.right})`);
+      var grafico = d3.select('#chart-gen-hor')
+          .append('svg')
+            .attr('height', alturaSVG)
+            .attr('width', larguraSVG)
+          .append('g')
+            .attr('transform', `translate(${margin.left}, ${margin.right})`);
         
         
 
@@ -100,12 +135,6 @@ weight = 0
       const containerCirculos = grafico.selectAll('g')
                .data(dados)
                .enter().append('g');
-
-      /*containerCirculos.append('circle')
-                   .attr('cx', d => x(horaComoInt(d.horario))) 
-                   .attr('cy', d => yHomem(d.homens))
-                   .attr('r', 5)
-                   .attr('class', 'ponto-homem');*/
                    
       grafico.append('path')
                          .attr('d', d3.line().x((d) =>x(horaComoInt(d.horario))).y((d) => yHomem(d.homens))(dados)) 
@@ -114,13 +143,6 @@ weight = 0
       grafico.append('path')
                           .attr('d', d3.line().x((d) =>x(horaComoInt(d.horario))).y((d) => yMulher(d.mulheres))(dados)) 
                           .attr('class', 'linha-mulher');
-      /*              
-      containerCirculos.append('circle')
-                   .attr('cx', d => x(horaComoInt(d.horario))) 
-                   .attr('cy', d => yMulher(d.mulheres))
-                   .attr('r', 5)
-                   .attr('class', 'ponto-mulher');
-        */
         
       const horas = apenasHoras(dados.map((dado) => (dado.horario)));
       const horasEixo = d3.scaleBand().domain(horas).rangeRound([0, larguraVis]);
@@ -141,5 +163,6 @@ weight = 0
 
     d3.csv('/portfolio-vis/static/data/acude-velho.csv', function(dados) {
       desenhaGraficoGeneroHorario(dados);
+      desenhaBarrasGenTransp(dados);
     });
   </script>
