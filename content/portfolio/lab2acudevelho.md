@@ -10,14 +10,8 @@ weight = 0
 <script src="https://d3js.org/d3.v4.min.js"></script>
 
 <div class="container">
-   <!--  <div id="chart-gen-hor">
-    
-    </div> -->
-    
-    <div id="chart-gen-meio-transporte">
-        
-    </div>
-    
+      <div id="chart-gen-meio-transporte"/>
+      <div id="chart-gen-hor"/>
 </div>
 
 <style>
