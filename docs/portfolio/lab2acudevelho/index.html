@@ -123,35 +123,100 @@
          <script src="https://d3js.org/d3.v4.min.js"></script>
 
 <div class="container">
-    <div class="row mychart" id="chart-gen-hor">
-    
-    </div>
-    
+      <div id="chart-gen-hor"></div>
+      Neste gráfico, temos representados a quantidade de pedestres e ciclistas de cada gênero em determinado horário.
+      A linha <span style="color: steelblue;">azul</span> representa a quantidade de homens e a linha <span style="color:purple;">roxa</span> a quantidade de mulheres. Como podemos perceber, o horário de pico de ambos os sexos são entre as 7:00 - 8:00 da manhã e 17:00 - 18:00 da tarde, horários em que é comum a prática de exercícios físicos.
+      <div id="chart-gen-meio-transporte"></div>
+      Aqui percebemos que a maior parte das mulheres que estiveram no açude estavam a pé.
 
-<pre><code>&lt;div class=&quot;row mychart&quot; id=&quot;chart-gen-meio-transporte&quot;&gt;
-
-&lt;/div&gt;
-</code></pre>
-
-<p></div></p>
+      <div id="chart-gen-lugar"></div>
+</div>
 
 <style>
 
 .linha-homem{
-    stroke: green;
+    stroke: steelblue;
     stroke-width: 2;
     fill: none;
 }
 
 .linha-mulher{
-    stroke: red;
+    stroke: purple;
     stroke-width: 2;
     fill: none;
 }
+
+.barra-homem{
+  fill: steelblue;
+}
+
+.barra-mulher{
+  fill: purple;
+}
+
+
 </style>
 
 <script type="text/javascript">
     "use strict"
+
+    function desenhaBarrasGenTransp(dados){
+        var alturaSVG = 400, larguraSVG = 900;
+        var  margin = {top: 10, right: 20, bottom:30, left: 45},
+            larguraVis = larguraSVG - margin.left - margin.right,
+            alturaVis = alturaSVG - margin.top - margin.bottom;
+
+        var grafico = d3.select('#chart-gen-meio-transporte')
+            .append('svg')
+              .attr('height', alturaSVG)
+              .attr('width', larguraSVG)
+            .append('g')
+              .attr('transform', `translate(${margin.left}, ${margin.right})`);
+
+        function processaDados(dados){
+          var resultado = [0, 0, 0, 0];
+          dados.forEach(dado => {
+            //0 = mulheres ciclistas
+            resultado[0] += Number(dado.mulheres_ciclistas);
+            //1 = mulheres pedestres
+            resultado[1] += Number(dado.mulheres_pedestres);
+            //2 = homens ciclistas
+            resultado[2] += Number(dado.homens_ciclistas);
+            //3 = homens pedestres
+            resultado[3] += Number(dado.homens_pedestres);
+          });
+
+          return resultado;
+        }
+
+        dados = processaDados(dados);
+        const labels = ['Mulheres Ciclistas',  'Mulheres Pedestres', 'Homens Ciclistas', 'Homens Pedestres'];
+
+        const x = d3.scaleBand().domain(labels).rangeRound([0, larguraVis]).padding(0.1);
+        const y = d3.scaleLinear().domain([0, d3.max(dados)]).range([0, alturaVis]);
+
+        grafico.selectAll('g')
+              .data(dados)
+              .enter()
+                .append('rect') 
+                  .attr('x', (d, i) => x(labels[i]))
+                  .attr('width', x.bandwidth())
+                  .attr('y', d => alturaVis - y(d))
+                  .attr('height', (d) => y(d))
+                  .attr('class', (d, i) => i < 2 ? 'barra-mulher' : 'barra-homem');
+
+        grafico.append("g")
+              .attr("class", "x axis")
+              .attr("transform", "translate(0," + alturaVis + ")")
+              .call(d3.axisBottom(x));
+
+        const qtdEixo = d3.scaleLinear().domain([d3.max(dados), d3.min(dados)]).range([0, alturaVis]);
+        grafico.append('g')
+              .attr('transform', 'translate(0,0)')
+              .call(d3.axisLeft(qtdEixo))
+
+
+    }
 
     function desenhaGraficoGeneroHorario(dados) {
        var alturaSVG = 400, larguraSVG = 900;
@@ -159,12 +224,12 @@
           larguraVis = larguraSVG - margin.left - margin.right,
           alturaVis = alturaSVG - margin.top - margin.bottom;
 
-          var grafico = d3.select('#chart-gen-hor')
-              .append('svg')
-                .attr('height', alturaSVG)
-                .attr('width', larguraSVG)
-              .append('g')
-                .attr('transform', `translate(${margin.left}, ${margin.right})`);
+      var grafico = d3.select('#chart-gen-hor')
+          .append('svg')
+            .attr('height', alturaSVG)
+            .attr('width', larguraSVG)
+          .append('g')
+            .attr('transform', `translate(${margin.left}, ${margin.right})`);
         
         
 
@@ -215,12 +280,6 @@
       const containerCirculos = grafico.selectAll('g')
                .data(dados)
                .enter().append('g');
-
-      /*containerCirculos.append('circle')
-                   .attr('cx', d => x(horaComoInt(d.horario))) 
-                   .attr('cy', d => yHomem(d.homens))
-                   .attr('r', 5)
-                   .attr('class', 'ponto-homem');*/
                    
       grafico.append('path')
                          .attr('d', d3.line().x((d) =>x(horaComoInt(d.horario))).y((d) => yHomem(d.homens))(dados)) 
@@ -229,13 +288,6 @@
       grafico.append('path')
                           .attr('d', d3.line().x((d) =>x(horaComoInt(d.horario))).y((d) => yMulher(d.mulheres))(dados)) 
                           .attr('class', 'linha-mulher');
-      /*              
-      containerCirculos.append('circle')
-                   .attr('cx', d => x(horaComoInt(d.horario))) 
-                   .attr('cy', d => yMulher(d.mulheres))
-                   .attr('r', 5)
-                   .attr('class', 'ponto-mulher');
-        */
         
       const horas = apenasHoras(dados.map((dado) => (dado.horario)));
       const horasEixo = d3.scaleBand().domain(horas).rangeRound([0, larguraVis]);
@@ -256,6 +308,7 @@
 
     d3.csv('/portfolio-vis/static/data/acude-velho.csv', function(dados) {
       desenhaGraficoGeneroHorario(dados);
+      desenhaBarrasGenTransp(dados);
     });
   </script>
 
