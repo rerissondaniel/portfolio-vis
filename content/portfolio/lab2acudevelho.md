@@ -10,30 +10,35 @@ weight = 0
 <script src="https://d3js.org/d3.v4.min.js"></script>
 
 <div class="container">
-      <div id="chart-gen-meio-transporte"/>
-      <div id="chart-gen-hor"/>
+      <div id="chart-gen-hor"></div>
+      Neste gráfico, temos representados a quantidade de pedestres e ciclistas de cada gênero em determinado horário.
+      A linha <span style="color: steelblue;">azul</span> representa a quantidade de homens e a linha <span style="color:purple;">roxa</span> a quantidade de mulheres. Como podemos perceber, o horário de pico de ambos os sexos são entre as 7:00 - 8:00 da manhã e 17:00 - 18:00 da tarde, horários em que é comum a prática de exercícios físicos.
+      <div id="chart-gen-meio-transporte"></div>
+      Aqui percebemos que a maior parte das mulheres que estiveram no açude estavam a pé.
+
+      <div id="chart-gen-lugar"></div>
 </div>
 
 <style>
 
 .linha-homem{
-    stroke: green;
+    stroke: steelblue;
     stroke-width: 2;
     fill: none;
 }
 
 .linha-mulher{
-    stroke: red;
+    stroke: purple;
     stroke-width: 2;
     fill: none;
 }
 
 .barra-homem{
-  fill: green;
+  fill: steelblue;
 }
 
 .barra-mulher{
-  fill: red;
+  fill: purple;
 }
 
 
@@ -72,25 +77,31 @@ weight = 0
         }
 
         dados = processaDados(dados);
-        const labels = ['Homens Ciclistas', 'Mulheres Ciclistas', 'Homens Pedestres', 'Mulheres Pedestres'];
+        const labels = ['Mulheres Ciclistas',  'Mulheres Pedestres', 'Homens Ciclistas', 'Homens Pedestres'];
 
         const x = d3.scaleBand().domain(labels).rangeRound([0, larguraVis]).padding(0.1);
-        const y = d3.scaleLinear([d3.min(dados), d3.max(dados)]).domain([0, alturaVis]);
+        const y = d3.scaleLinear().domain([0, d3.max(dados)]).range([0, alturaVis]);
 
         grafico.selectAll('g')
               .data(dados)
               .enter()
-                .append('rect')
+                .append('rect') 
                   .attr('x', (d, i) => x(labels[i]))
                   .attr('width', x.bandwidth())
-                  .attr('y', d => y(d))
-                  .attr('height', (d) => alturaVis - y(d))
-                  .attr('class', (d, i) => i % 2 == 0 ? 'barra-homem' : 'barra-mulher');
+                  .attr('y', d => alturaVis - y(d))
+                  .attr('height', (d) => y(d))
+                  .attr('class', (d, i) => i < 2 ? 'barra-mulher' : 'barra-homem');
 
         grafico.append("g")
               .attr("class", "x axis")
               .attr("transform", "translate(0," + alturaVis + ")")
               .call(d3.axisBottom(x));
+
+        const qtdEixo = d3.scaleLinear().domain([d3.max(dados), d3.min(dados)]).range([0, alturaVis]);
+        grafico.append('g')
+              .attr('transform', 'translate(0,0)')
+              .call(d3.axisLeft(qtdEixo))
+
 
     }
 
