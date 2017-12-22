@@ -124,8 +124,7 @@
 
 <div class="container">
       <div id="chart-gen-hor"></div>
-      Neste gráfico, temos representados a quantidade de pedestres e ciclistas de cada gênero em determinado horário.
-      A linha <span style="color: steelblue;">azul</span> representa a quantidade de homens e a linha <span style="color:purple;">roxa</span> a quantidade de mulheres. Como podemos perceber, o horário de pico de ambos os sexos são entre as 7:00 - 8:00 da manhã e 17:00 - 18:00 da tarde, horários em que é comum a prática de exercícios físicos.
+      Como podemos perceber, o horário de pico de ambos os sexos são entre as 7:00 - 8:00 da manhã e 17:00 - 18:00 da tarde, horários em que é comum a prática de exercícios físicos. Clique na linha que quer destacar. Para restaurar o gráfico, clique com o botão direito sobre o mesmo.
       <div id="chart-gen-meio-transporte"></div>
       Aqui percebemos que a maior parte das mulheres que estiveram no açude estavam a pé, assim como os homens. Apesar disso, é possível também enxergar uma grande discrepância entre o número de mulheres ciclistas e pedestres, algo que ocorre em menor escala quando comparamos os homens.
 
@@ -134,10 +133,24 @@
 
 <style>
 
+#chart-gen-hor{
+  overflow: hidden;
+}
+
 .linha-homem{
     stroke: steelblue;
     stroke-width: 2;
     fill: none;
+}
+
+.linha-homem:hover{
+    pointer-events: visible;
+    cursor: pointer;
+}
+
+.linha-mulher:hover{
+    pointer-events: visible;
+    cursor: pointer;
 }
 
 .linha-mulher{
@@ -152,6 +165,22 @@
 
 .barra-mulher{
   fill: purple;
+}
+
+.line-tooltip-holder{
+  opacity: 0.1;
+  filter: alpha(opacity=50)
+}
+
+div.tooltip {
+  position: absolute;
+  text-align: center;
+  padding: 2px;
+  font: 12px sans-serif;
+  background: lightsteelblue;
+  border: 0px;
+  border-radius: 8px;
+  pointer-events: none;
 }
 
 
@@ -224,15 +253,27 @@
           larguraVis = larguraSVG - margin.left - margin.right,
           alturaVis = alturaSVG - margin.top - margin.bottom;
 
-      var grafico = d3.select('#chart-gen-hor')
+      const zoom = d3.zoom().scaleExtent([1, 8]).on('zoom', function(){
+              svg.attr('transform', d3.event.transform);
+            });
+
+      var svg =  d3.select('#chart-gen-hor')
           .append('svg')
             .attr('height', alturaSVG)
             .attr('width', larguraSVG)
-          .append('g')
-            .attr('transform', `translate(${margin.left}, ${margin.right})`);
-        
-        
+            .call(zoom).on('contextmenu', () => {
+                d3.event.preventDefault();
+                mostraElementosHomem();
+                mostraElementosMulher();
+                svg.transition()
+                  .duration(750)
+                  .call(zoom.transform, d3.zoomIdentity);
 
+            });
+
+      var grafico = svg.append('g')
+            .attr('transform', `translate(${margin.left}, ${margin.right})`)
+        
       function unique(a){
         return a.filter(function(item, i, ar){ return ar.indexOf(item) === i});      
       }
@@ -266,7 +307,32 @@
       function horaComoInt(h){
         return parseInt(h.replace(':', ''));
       }
+
+      function esconderElementosMulher(){
+        d3.select('.linha-mulher').attr('display', 'none');
+        d3.selectAll('.circulo-mulher').attr('display', 'none');
+      }
+
+      function esconderElementosHomem(){
+        d3.select('.linha-homem').attr('display', 'none');
+        d3.selectAll('.circulo-homem').attr('display', 'none');
+      }
+
+      function mostraElementosHomem(){
+        d3.select('.linha-homem').attr('display', 'inline');
+        d3.selectAll('.circulo-homem').attr('display', 'inline');
+        
+      }
+
+      function mostraElementosMulher(){
+        d3.select('.linha-mulher').attr('display', 'inline');
+        d3.selectAll('.circulo-mulher').attr('display', 'inline');
+      }
       
+      var div = d3.select("body").append("div")
+          .attr("class", "tooltip")
+          .style("opacity", 0);
+
       const horasComoInt = dados.map((dado) => horaComoInt(dado.horario));
       const x = d3.scaleLinear().domain([d3.min(horasComoInt), d3.max(horasComoInt)]).rangeRound([0, larguraVis]).clamp(true);
       
@@ -277,17 +343,59 @@
       const yMulher = d3.scaleLinear().domain([d3.max(mulheres), d3.min(mulheres)]).range([0, alturaVis]);
 
 
-      const containerCirculos = grafico.selectAll('g')
+      var containerCirculos = grafico.selectAll('g')
                .data(dados)
                .enter().append('g');
-                   
+
+      //Círculos para os tooltips dos homens
+      containerCirculos.append('circle')
+                         .attr('r', 5)
+                         .attr('cx', (d) =>x(horaComoInt(d.horario)))
+                         .attr('cy', (d) => yHomem(d.homens))
+                         .attr('class', 'line-tooltip-holder circulo-homem')
+                         .on('mouseover', (d) => {
+                            div.transition()
+                              .duration(50)
+                              .style('opacity', .9)
+                              .style('background', 'lightsteelblue');
+                            div.html((d.horario) + "<br/>" + d.homens + ' homens')
+                              .style('left', (d3.event.pageX) + 'px')
+                              .style('top', (d3.event.pageY - 28) + 'px');
+                          }).on('mouseout', function(d) {   
+                             div.transition()    
+                              .duration(300)    
+                              .style("opacity", 0); 
+                          });
+
+      //Círculos para os tooltips das mulheres
+      containerCirculos.append('circle')
+                         .attr('r', 5)
+                         .attr('cx', (d) =>x(horaComoInt(d.horario)))
+                         .attr('cy', (d) => yMulher(d.mulheres))
+                         .attr('class', 'line-tooltip-holder circulo-mulher')
+                         .on('mouseover', (d) => {
+                            div.transition()
+                              .duration(50)
+                              .style('opacity', .9)
+                              .style('background', '#ba00db');
+                            div.html((d.horario) + "<br/>" + d.homens + ' mulheres')
+                              .style('left', (d3.event.pageX) + 'px')
+                              .style('top', (d3.event.pageY - 28) + 'px');
+                          }).on('mouseout', function(d) {   
+                             div.transition()    
+                              .duration(300)    
+                              .style("opacity", 0); 
+                          });
+
       grafico.append('path')
                          .attr('d', d3.line().x((d) =>x(horaComoInt(d.horario))).y((d) => yHomem(d.homens))(dados)) 
-                         .attr('class', 'linha-homem');
+                         .attr('class', 'linha-homem')
+                         .on('mousedown', esconderElementosMulher);
       
       grafico.append('path')
                           .attr('d', d3.line().x((d) =>x(horaComoInt(d.horario))).y((d) => yMulher(d.mulheres))(dados)) 
-                          .attr('class', 'linha-mulher');
+                          .attr('class', 'linha-mulher')
+                          .on('mousedown', esconderElementosHomem);
         
       const horas = apenasHoras(dados.map((dado) => (dado.horario)));
       const horasEixo = d3.scaleBand().domain(horas).rangeRound([0, larguraVis]);
