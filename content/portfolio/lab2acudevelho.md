@@ -55,8 +55,7 @@ weight = 0
 }
 
 .line-tooltip-holder{
-  opacity: 0.1;
-  filter: alpha(opacity=50)
+  opacity: 0.3;
 }
 
 div.tooltip {
