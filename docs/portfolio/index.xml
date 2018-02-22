@@ -33,11 +33,20 @@
     
     <item>
       <title>Lab 3 Parte 2 - Registro de Nascimento e Renda na Paraíba</title>
-      <link>https://rerissondaniel.github.io/portfolio-vis/portfolio/lab3mapas/</link>
+      <link>https://rerissondaniel.github.io/portfolio-vis/portfolio/lab3mapasparte2/</link>
       <pubDate>Tue, 14 Nov 2017 18:25:22 +0530</pubDate>
       
-      <guid>https://rerissondaniel.github.io/portfolio-vis/portfolio/lab3mapas/</guid>
+      <guid>https://rerissondaniel.github.io/portfolio-vis/portfolio/lab3mapasparte2/</guid>
       <description>Neste mapa podemos observar que a imensa maioria das crianças abaixo de 10 anos têm registro de nascimento. Entretanto, é possível notar regiões em que menos de 100% das crianças abaixo de 10 anos têm registro de nascimento. Isso é surpreendente, dada a necessidade do registro para o exercício da cidadania.  Já nesta visualização, podemos observar uma maior variedade de padrões espaciais. Nas maiores cidades, o rendimento médio dos responsáveis por domicílio é maior que nas cidades do interior.</description>
+    </item>
+    
+    <item>
+      <title>Lab 3 Parte 3 - Crescimento do aprendizado Entre 2011 e 2013</title>
+      <link>https://rerissondaniel.github.io/portfolio-vis/portfolio/lab3mapasparte3/</link>
+      <pubDate>Tue, 14 Nov 2017 18:25:22 +0530</pubDate>
+      
+      <guid>https://rerissondaniel.github.io/portfolio-vis/portfolio/lab3mapasparte3/</guid>
+      <description>.cidades { fill: none; stroke: #fff; stroke-linejoin: round; } path:hover, path.highlighted { fill: tomato; } div.tooltip { position: absolute; background-color: white; border: 1px solid black; color: black; font-family:&#34;avenir next&#34;, Arial, sans-serif; padding: 4px 8px; display: none; }     Comparando os dados dessa visualização com a anterior, podemos perceber a adequação do aprendizado é mais uniforme no estado da Paraíba, estando entre 20 e 30% em grande parte das regiões.</description>
     </item>
     
     <item>
