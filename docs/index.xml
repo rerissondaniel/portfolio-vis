@@ -50,6 +50,15 @@
     </item>
     
     <item>
+      <title>Lab 4 Parte 1 - Artistas relacionados a Moby</title>
+      <link>https://rerissondaniel.github.io/portfolio-vis/portfolio/lab4parte1/</link>
+      <pubDate>Tue, 14 Nov 2017 18:25:22 +0530</pubDate>
+      
+      <guid>https://rerissondaniel.github.io/portfolio-vis/portfolio/lab4parte1/</guid>
+      <description>D3  .node { fill: #ccc; stroke: #fff; stroke-width: 2px; } .link { stroke: #999; stroke-opacity: 0.3; }      Na rede acima vemos os artistas relacionados ao DJ Moby (ele é o nó preto).	O tamanho dos nós indicam a semelhança entre a sonoridade de Moby e do artista representado pelo nó. Quanto maior o nó, mais semelhante. Podemos perceber na rede acima que apesar de haverem agrupamentos de determinadas bandas, os agrupamentos são próximos uns dos outros, indicando assim que esses artistas tendem a não diferir tanto em sonoridade.</description>
+    </item>
+    
+    <item>
       <title>Um retrato do gênero dos Ocupantes do Açude Velho</title>
       <link>https://rerissondaniel.github.io/portfolio-vis/portfolio/lab2acudevelho/</link>
       <pubDate>Tue, 14 Nov 2017 18:25:22 +0530</pubDate>

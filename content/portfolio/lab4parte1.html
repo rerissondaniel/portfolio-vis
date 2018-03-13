@@ -1,0 +1,166 @@
++++ 
+showonlyimage = false 
+draft = false
+date = "2017-11-14T18:25:22+05:30" 
+title = "Lab 4 Parte 1 - Artistas relacionados a Moby" 
+weight = 0 
++++
+<head>
+	<meta charset="utf-8">
+  	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+  	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+	<link rel="icon" href="/favicon.ico" type="image/x-icon">
+	<title>D3</title>
+
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans|Roboto+Slab" rel="stylesheet">
+	<link href="/portfolio-vis/static/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/portfolio-vis/static/css/main.css" rel="stylesheet">
+	<link href="/portfolio-vis/static/css/fonts.css" rel="stylesheet">
+	<style>
+			.node {
+			    fill: #ccc;
+			    stroke: #fff;
+			    stroke-width: 2px;
+			}
+
+			.link {
+					stroke: #999;
+					stroke-opacity: 0.3;
+			}
+    </style>
+</head>
+<body>
+		<div class="container">
+			<div id="chart"></div>
+		  <p>
+		    Na rede acima vemos os artistas relacionados ao DJ Moby (ele é o nó preto).	O tamanho dos nós indicam a semelhança entre a sonoridade de Moby e do artista representado pelo nó. Quanto maior o nó, mais semelhante. Podemos perceber na rede acima que apesar de haverem agrupamentos de determinadas bandas, os agrupamentos são próximos uns dos outros, indicando assim que esses artistas tendem a não diferir tanto em sonoridade. A exceção é o agrupamento no canto superior esquerdo, tendo blur como mais similar ao Moby.
+		  </p>
+		</div>
+
+	<!-- scripts -->
+	<script src="/portfolio-vis/static/js/d3.v4.min.js"></script>
+	<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script> 
+	<script>
+		var
+		    width = 1000,
+		    height = 1000;
+		const MIN_POPULARITY = 50;
+
+		var svg = d3.select("#chart")
+				.append("svg")
+				.attr('version', '1.1')
+				.attr('viewBox', '0 0 '+width+' '+height)
+				.attr('width', '100%');
+
+		var simulation = d3.forceSimulation();
+
+		d3.json("/portfolio-vis/static/data/artistas-semelhantes.json", function(error, graph) {
+		  if (error) throw error;
+		  
+		  applyForces(simulation);
+
+		  graph = filterNotSoPopulars(graph);
+
+		  var link = svg.append("g")
+		      .attr("class", "link")
+		    .selectAll("line")
+		    	.data(graph.edges)
+		    .enter().append("line");
+
+		  var node = svg.append("g")
+		      .attr("class", "nodes")
+		    .selectAll("circle")
+		    	.data(graph.nodes)
+		    .enter().append("circle")
+		      .attr("r", node => node.size / 7)
+		      .attr("fill", function(d) { return d.color; })
+		      .call(d3.drag()
+		          .on("start", dragstarted)
+		          .on("drag", dragged)
+		          .on("end", dragended));
+
+		  node.append("title")
+		      .text(function(d) { return d.label; });
+
+		  simulation
+		      .nodes(graph.nodes)
+		      .on("tick", ticked);
+
+		  simulation.force("link")
+		      .links(graph.edges);
+
+		  function ticked() {
+		    link
+		        .attr("x1", function(d) { return d.source.x; })
+		        .attr("y1", function(d) { return d.source.y; })
+		        .attr("x2", function(d) { return d.target.x; })
+		        .attr("y2", function(d) { return d.target.y; });
+
+		    node
+		        .attr("cx", function(d) { return d.x; })
+		        .attr("cy", function(d) { return d.y; });
+		  }
+		});
+
+		function dragstarted(d) {
+		  if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+		  d.fx = d.x;
+		  d.fy = d.y;
+		}
+
+		function dragged(d) {
+		  d.fx = d3.event.x;
+		  d.fy = d3.event.y;
+		}
+
+		function dragended(d) {
+		  if (!d3.event.active) simulation.alphaTarget(0);
+		  d.fx = null;
+		  d.fy = null;
+		}
+
+		function filterNotSoPopulars(graph){
+			let removed = [];
+			graph.nodes = graph.nodes.filter(elem => {
+				if(elem.size > MIN_POPULARITY)return true;
+				removed.push(elem.id);
+				return false;
+			});
+			graph.edges = graph.edges.filter(elem => removed.indexOf(elem.source) === -1 && removed.indexOf(elem.target) === -1);
+			return graph;
+		}
+
+		const forces = {
+			charge: {
+				strength: -150,
+				dMin: 5,
+				dMax: 200
+			},
+
+			forceY: {
+				strength: 1,
+				y: 10
+			}
+		}
+
+		console.log(forces);
+		console.log(forces.forceY);
+
+		function applyForces(simulation){
+			simulation.force("link", d3.forceLink().id(d => d.id)
+				.distance(50)
+				.iterations(2)
+			);
+		    
+		    simulation.force("charge", d3.forceManyBody()
+		    	.strength(forces.charge.strength)
+		    	.distanceMin(forces.charge.dMin)
+        		.distanceMax(forces.charge.dMax)
+        	);
+        	
+		    simulation.force("center", d3.forceCenter(width / 2, height / 2));
+		}
+
+</script>
+</body>
